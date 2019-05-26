@@ -9,8 +9,11 @@ import Control.Monad
 
 talk sock = forever $ do
     msg <- getLine
-    sendAll sock $ C.pack msg
-    putStrLn $ "You said: " ++ msg
+
+    case msg of
+        "fim" -> error "Client closes connection"
+        _ -> do sendAll sock $ C.pack msg
+                putStrLn $ "You said: " ++ msg
 
 receiveMsg sock prefix = do
     msg <- recv sock 1024
