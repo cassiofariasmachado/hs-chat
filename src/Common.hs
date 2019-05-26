@@ -7,6 +7,7 @@ import qualified Data.ByteString.Char8 as C
 import Network.Socket.ByteString (recv, sendAll)
 import Control.Monad
 
+-- obtém as mensagens escritas no terminal (stdin) e envia ao socket 
 talk sock = forever $ do
     msg <- getLine
 
@@ -15,6 +16,7 @@ talk sock = forever $ do
         _ -> do sendAll sock $ C.pack msg
                 putStrLn $ "You said: " ++ msg
 
+-- recebe as mensagens do socket e escreve no terminal (stdout)
 receiveMsg sock prefix = do
     msg <- recv sock 1024
     let formatedMsg = prefix ++ (C.unpack msg)
